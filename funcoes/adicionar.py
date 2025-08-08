@@ -1,6 +1,17 @@
 from tkinter import messagebox, Label, Frame, Entry, Button, LEFT
 from bd.bd import conectar, fechar_conexao
 
+def produto_Existente(nome):
+    conexao = conectar()
+    if conexao:
+        cursor = conexao.cursor()
+        cursor.execute("SELECT COUNT(*) FROM estoque WHERE nome_produto = %s", (nome,))
+        quantidade = cursor.fetchone()[0]
+        fechar_conexao(conexao, cursor)
+        return quantidade > 0
+    return False
+    
+
 def adicionar(app):
     # Limpa o container
     for widget in app.segundoContainer.winfo_children():
@@ -9,7 +20,6 @@ def adicionar(app):
     form_container = Frame(app.segundoContainer)
     form_container.pack(pady=10)
     
-    # Campos do formulário
     campos = [
         ("Nome do Produto", "nomePROD"),
         ("Preço (R$)", "precoPROD"), 
@@ -26,10 +36,12 @@ def adicionar(app):
         entry.pack(side=LEFT, padx=5)
         app.entries[var_name] = entry
     
-    Button(form_container, 
-          text="Confirmar", 
-          font=app.fontePadrao,
-          command=lambda: validar_entrada(app)).pack(pady=10)
+    Button(
+        form_container, 
+        text="Confirmar", 
+        font=app.fontePadrao,
+        command=lambda: validar_entrada(app)
+    ).pack(pady=10)
 
 def validar_entrada(app):
     nome = app.entries["nomePROD"].get().strip()
@@ -40,6 +52,11 @@ def validar_entrada(app):
         messagebox.showwarning("Aviso", "Todos os campos devem ser preenchidos!")
         return
     
+    # Verifica se produto já existe
+    if produto_Existente(nome):
+        messagebox.showerror("Erro", f"O produto '{nome}' já existe no banco de dados!")
+        return
+    
     try:
         preco_float = float(preco)
         quantidade_int = int(quantidade)
@@ -47,8 +64,6 @@ def validar_entrada(app):
         conexao = conectar()
         if conexao:
             cursor = conexao.cursor()
-            
-            # Query segura com parâmetros
             query = "INSERT INTO estoque (nome_produto, preco, quantidade_Prod) VALUES (%s, %s, %s)"
             valores = (nome, preco_float, quantidade_int)
             
@@ -58,7 +73,6 @@ def validar_entrada(app):
             messagebox.showinfo("Sucesso", 
                 f"Produto '{nome}' (R${preco_float:.2f}) - {quantidade_int} un. adicionado!")
             
-            # Limpa campos
             for entry in app.entries.values():
                 entry.delete(0, 'end')
                 
