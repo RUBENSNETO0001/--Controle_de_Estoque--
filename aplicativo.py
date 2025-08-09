@@ -1,5 +1,6 @@
 from tkinter import *
 from funcoes.adicionar import adicionar
+from funcoes.remover import remover
 
 class Aplicativo:
     def __init__(self, master=None):
@@ -26,10 +27,17 @@ class Aplicativo:
         
         # Botão para remover
         Button(self.widget1,
-              text="Sair",
+              text="Remover",
               font=self.fontePadrao,
               width=10,
-              command=master.quit).pack(side=LEFT, padx=5)
+              command=self.chamar_remover).pack(side=LEFT, padx=5)
+        
+         # Botão para pesquisar
+        Button(self.widget1,
+              text="Pesquisar",
+              font=self.fontePadrao,
+              width=10,
+              command=self.chamar_pesquisar).pack(side=LEFT, padx=5)
         
         # Botão para sair
         Button(self.widget1,
@@ -40,6 +48,10 @@ class Aplicativo:
     
     def chamar_adicionar(self):
         adicionar(self)
+    def chamar_remover(self):
+        remover(self)
+    def chamar_pesquisar(self):
+        pass
 
 root = Tk()
 app = Aplicativo(root)
