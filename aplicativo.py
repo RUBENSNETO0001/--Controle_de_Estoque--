@@ -1,6 +1,7 @@
 from tkinter import *
 from funcoes.adicionar import adicionar
 from funcoes.remover import remover
+from funcoes.pesquisar import pesquisar
 
 class Aplicativo:
     def __init__(self, master=None):
@@ -51,7 +52,7 @@ class Aplicativo:
     def chamar_remover(self):
         remover(self)
     def chamar_pesquisar(self):
-        pass
+        pesquisar(self)
 
 root = Tk()
 app = Aplicativo(root)
