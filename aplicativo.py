@@ -24,6 +24,13 @@ class Aplicativo:
               width=10,
               command=self.chamar_adicionar).pack(side=LEFT, padx=5)
         
+        # Botão para remover
+        Button(self.widget1,
+              text="Sair",
+              font=self.fontePadrao,
+              width=10,
+              command=master.quit).pack(side=LEFT, padx=5)
+        
         # Botão para sair
         Button(self.widget1,
               text="Sair",
