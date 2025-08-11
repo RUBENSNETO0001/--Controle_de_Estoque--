@@ -2,6 +2,7 @@ from tkinter import *
 from funcoes.adicionar import adicionar
 from funcoes.remover import remover
 from funcoes.pesquisar import pesquisar
+from funcoes.pesquisa_Expecificar import pesquisa_Expecificar
 
 class Aplicativo:
     def __init__(self, master=None):
@@ -33,12 +34,19 @@ class Aplicativo:
               width=10,
               command=self.chamar_remover).pack(side=LEFT, padx=5)
         
-         # Botão para pesquisar
+        # Botão para pesquisar
         Button(self.widget1,
               text="Pesquisar",
               font=self.fontePadrao,
               width=10,
               command=self.chamar_pesquisar).pack(side=LEFT, padx=5)
+        
+        # Botão para pesquisar_expe
+        Button(self.widget1,
+              text="Pesquisar Expecifico",
+              font=self.fontePadrao,
+              width=17,
+              command=self.chamar_pesquisar_expecificar).pack(side=LEFT, padx=5)
         
         # Botão para sair
         Button(self.widget1,
@@ -53,6 +61,8 @@ class Aplicativo:
         remover(self)
     def chamar_pesquisar(self):
         pesquisar(self)
+    def chamar_pesquisar_expecificar(self):
+        pesquisa_Expecificar(self)
 
 root = Tk()
 app = Aplicativo(root)

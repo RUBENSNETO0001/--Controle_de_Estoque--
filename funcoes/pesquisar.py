@@ -1,6 +1,8 @@
 from tkinter import messagebox, Label, Frame, Entry, Button, LEFT, Scrollbar, Listbox, RIGHT, Y, END
 from bd.bd import conectar, fechar_conexao
 
+from funcoes_extra.adicionar_quantidade import adicionar_qtd
+
 def pesquisar_Produtos(listbox): 
     """
     Função que busca produtos no banco de dados e exibe em uma Listbox
@@ -30,6 +32,9 @@ def pesquisar_Produtos(listbox):
         
         
 def pesquisar(app):
+    for widget in app.segundoContainer.winfo_children():
+        widget.destroy()
+        
     form_container = Frame(app.segundoContainer)
     form_container.pack(pady=10, fill='both', expand=True)
     
@@ -60,7 +65,14 @@ def pesquisar(app):
         text="Atualizar Lista", 
         font=app.fontePadrao,
         command=lambda: pesquisar_Produtos(listbox)
-    ).pack()
-    
+    ).pack(side=LEFT, padx=5)
+
+    Button(
+        btn_frame,
+        text="Adicionar Quantidade",
+        font=app.fontePadrao,
+        command=lambda: adicionar_qtd(app)
+    ).pack(side=LEFT, padx=5)
     
     pesquisar_Produtos(listbox)
+    
